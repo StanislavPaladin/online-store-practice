@@ -10,7 +10,6 @@ const mySwiper = new Swiper('.swiper-container', {
 
 
 //cart
-console.log(1);
 const buttonCart = document.querySelector('.button-cart');
 const modalCart = document.querySelector('#modal-cart');
 const body = document.querySelector('body');
@@ -23,7 +22,6 @@ function closeModal () {
 
 body.addEventListener('click', (e) => {
 	e.preventDefault();
-	console.log(123);
 	const target = e.target;
 	if(target.matches('.button-cart') || target.matches('[data-cart]')) {
 		openModal();
@@ -40,8 +38,16 @@ window.addEventListener('keydown', (e) => {
 //scroll smooth
 
 const scrollLink = document.querySelectorAll('a.scroll-link');
-for (let i = 0; i < scrollLink.length; i++) {
-	scrollLink[i].addEventListener('click', (e) => {
-		e.preventDefault();
-	})
+function scrollFunction () {
+	for (let i = 0; i < scrollLink.length; i++) {
+		scrollLink[i].addEventListener('click', (event) => {
+			event.preventDefault();
+			const id = scrollLink[i].getAttribute('href');
+			document.querySelector(id).scrollIntoView( {
+				behavior: 'smooth',
+				block: 'start',
+			});
+		});
+	}
 }
+scrollFunction();
