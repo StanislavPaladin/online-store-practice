@@ -59,7 +59,18 @@ button {
     margin-right: 10px;
     
 }
-
+.clear-cart__btn {
+    max-width: 100px;
+    max-height: 40px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+    border: 1px solid black;
+    color: red;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #fff;
+}
 .button-icon {
     margin-left: 10px;
 }
