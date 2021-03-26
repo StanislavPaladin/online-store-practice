@@ -21,6 +21,7 @@ const cartTableTotal = document.querySelector('.card-table__total');
 const scrollLinks = document.querySelectorAll('.scroll-link');
 const cartCount = document.querySelector('.cart-count');
 const modal = document.querySelector('.modal');
+const modalInut = document.querySelectorAll('.modal-input')
 //запрос к БД
 const getGoods = async () => {
 	const result = await fetch('db/db.json');
@@ -275,3 +276,47 @@ viewAllBtn.forEach(function (link) {
 	});
 });
 getGoods();
+
+//AJAX запросы
+
+const modalForm = document.querySelector('.modal-form');
+const postData = dataUser => fetch('server.php', {
+	method: 'POST',
+	body: dataUser,
+});
+const kek = document.createElement('span');
+
+function clearMessage() {
+	kek.remove();
+}
+
+modalForm.addEventListener('submit', e => {
+	e.preventDefault();
+	const formData = new FormData(modalForm);
+	formData.append('Goods: ', JSON.stringify(cart.cartGoods));
+	postData(formData)
+		.then(response => {
+			if (response.ok && cart.cartGoods.length !== 0) {
+				closeModal();
+				alert('Ваш заказ отправлен');
+			} else if (cart.cartGoods.length === 0) {
+				if (cart.cartGoods.length === 0) {
+					modal.append(kek);
+					kek.innerHTML = 'Вы не можете отправить пустую корзину!';
+					setTimeout(clearMessage, 4000);
+				}
+			} else {
+				throw new Error(response.status);
+			}
+		})
+		.catch(error => {
+			alert('Произошла ошибка');
+			console.error(error);
+		})
+		.finally(() => {
+			modalForm.reset();
+			cart.cartGoods.forEach(function (item) {
+				cart.deleteGood(item.id);
+			});
+		});
+});
